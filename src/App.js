@@ -1,24 +1,21 @@
-import logo from './logo.svg';
+import React from 'react';
+import { createBrowserHistory } from 'history';
 import './App.css';
+import { Route, Router, Switch } from 'react-router-dom';
+import Employee from './components/payroll-form/payroll-form';
 
 function App() {
+  const history = createBrowserHistory();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router history={history}>
+        <Switch>
+          <Route path="/payroll-form">
+            <Employee />
+          </Route>
+        </Switch>
+      </Router>
+    </>
   );
 }
 
