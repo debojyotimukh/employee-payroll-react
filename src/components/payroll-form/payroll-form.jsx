@@ -11,36 +11,100 @@ class Employee extends React.Component {
     constructor() {
         super()
         this.state = {
-            name: ''
+            name: '',
+            profilePic: '',
+            gender: '',
+            department: '',
+            salary: 400000,
+            startDate: '',
+            note: ''
         }
+        this.departmentArr = []
+
     }
 
     save = () => {
-
+        alert(JSON.stringify(this.state))
     }
 
-    reset = () => { }
+    reset = () => {
+        this.setState({
+            name: '',
+            profilePic: '',
+            gender: '',
+            department: '',
+            salary: 400000,
+            startDate: '',
+            note: ''
+        })
+    }
+
+    inputUpdate = e => {
+        this.setState({
+            [e.target.id]: e.target.value
+        })
+    }
+
+    radioUpdate = e => {
+        this.setState({ [e.target.name]: e.target.value })
+    }
+
+    multipleCheckBoxes = e => {
+        this.departmentArr.push(e.target.value)
+        this.setState({ [e.target.name]: this.departmentArr })
+    }
+
+    PayrollHeader(props) {
+        return <header className="header-content header">
+            <div className="logo-content">
+                <img src={props.logo} alt=""></img>
+                <div>
+                    <span className="emp-text">EMPLOYEE</span><br></br>
+                    <span className="emp-text">PAYROLL</span>
+                </div>
+            </div>
+        </header>
+    }
+
+    Avatar(props) {
+        return <label>
+            <input type="radio" id={props.id} name="profilePic" value={props.url} onChange={props.onChecked}
+                required></input>
+            <img className="profile" id='image1' src={props.image}></img>
+        </label>
+    }
+
+    Gender(props) {
+        return <>
+            <label className="label text" htmlFor={props.name}>Gender</label>
+            <div>
+                <input type="radio" id="male" name={props.name} value="M" onChange={props.onChecked} required></input>
+                <label className="text" htmlFor="male">Male</label>
+                <input type="radio" id="female" name={props.name} value="F" onChange={props.onChecked} required></input>
+                <label className="text" htmlFor="female">Female</label>
+            </div>
+        </>
+    }
+
+    Department(props) {
+        return <>
+            <input className="checkbox" type="checkbox" id={props.id} name={props.name} value={props.value} onChange={props.onChecked} ></input>
+            <label className="text" htmlFor={props.id}>{props.value}</label>
+        </>
+    }
 
     render() {
         return (
             <>
-                <header className="header-content header">
-                    <div className="logo-content">
-                        <img src={logo} alt=""></img>
-                        <div>
-                            <span className="emp-text">EMPLOYEE</span><br></br>
-                            <span className="emp-text">PAYROLL</span>
-                        </div>
-                    </div>
-                </header>
+                <this.PayrollHeader logo={logo} />
                 <div className="form-content">
-                    <form className="form" action="#" onClick={this.save}>
+                    <form className="form" action="#" onSubmit={this.save}>
                         <div className="form-head">Employee Payroll Form
                     </div>
                         {/* name */}
                         <div className="row-content">
                             <label className="label text" htmlFor="name">Name</label>
-                            <input className="input" type="text" id="name" name="name" placeholder="Your name..." required>
+                            <input className="input" type="text" id="name" name="name" value={this.state.name} onChange={this.inputUpdate} placeholder="Your name..." required>
                             </input>
                             <error-output className="text-error" htmlFor="text">
                             </error-output>
@@ -49,71 +113,44 @@ class Employee extends React.Component {
                         <div className="row-content">
                             <label className="label text" htmlFor="profile">Profile image</label>
                             <div className="profile-radio-content">
-                                <label>
-                                    <input type="radio" id="profile1" name="profile" value="../assets/profile-images/Ellipse -3.png"
-                                        required></input>
-                                    <img className="profile" id='image1' src={profilePic1}></img>
-                                </label>
-                                <label>
-                                    <input type="radio" id="profile2" name="profile" value="../assets/profile-images/Ellipse 1.png"
-                                        required></input>
-                                    <img className="profile" id='image1' src={profilePic2}></img>
-                                </label>
-                                <label>
-                                    <input type="radio" id="profile3" name="profile" value="../assets/profile-images/Ellipse -8.png"
-                                        required></input>
-                                    <img className="profile" id='image1' src={profilePic3}></img>
-                                </label>
-                                <label>
-                                    <input type="radio" id="profile4" name="profile" value="../assets/profile-images/Ellipse -7.png"
-                                        required></input>
-                                    <img className="profile" id='image1' src={profilePic4}></img>
-                                </label>
+                                <this.Avatar id="profile1" url="../assets/profile-images/Ellipse -3.png" image={profilePic1} onChecked={this.radioUpdate} />
+                                <this.Avatar id="profile2" url="../assets/profile-images/Ellipse 1.png" image={profilePic2} onChecked={this.radioUpdate} />
+                                <this.Avatar id="profile3" url="../assets/profile-images/Ellipse -8.png" image={profilePic3} onChecked={this.radioUpdate} />
+                                <this.Avatar id="profile4" url="../assets/profile-images/Ellipse -7.png" image={profilePic4} onChecked={this.radioUpdate} />
                             </div>
                         </div>
                         {/* Gender */}
                         <div className="row-content">
-                            <label className="label text" htmlFor="gender">Gender</label>
-                            <div>
-                                <input type="radio" id="male" name="gender" value="M" required></input>
-                                <label className="text" htmlFor="male">Male</label>
-                                <input type="radio" id="female" name="gender" value="F" required></input>
-                                <label className="text" htmlFor="female">Female</label>
-                            </div>
+                            <this.Gender name="gender" onChecked={this.radioUpdate} />
                         </div>
                         {/* Department */}
                         <div className="row-content">
                             <label className="label text" htmlFor="department">Department</label>
                             <div>
-                                <input className="checkbox" type="checkbox" id="hr" name="department" value="HR"></input>
-                                <label className="text" htmlFor="hr">HR</label>
-                                <input className="checkbox" type="checkbox" id="sales" name="department" value="Sales"></input>
-                                <label className="text" htmlFor="sales">Sales</label>
-                                <input className="checkbox" type="checkbox" id="finance" name="department" value="Finance"></input>
-                                <label className="text" htmlFor="finance">Finance</label>
-                                <input className="checkbox" type="checkbox" id="engineer" name="department" value="Engineer"></input>
-                                <label className="text" htmlFor="engineer">Engineer</label>
-                                <input className="checkbox" type="checkbox" id="others" name="department" value="Others"></input>
-                                <label className="text" htmlFor="others">Others</label>
+                                <this.Department id="hr" value="HR" name="department" onChecked={this.multipleCheckBoxes} />
+                                <this.Department id="sales" value="Sales" name="department" onChecked={this.multipleCheckBoxes} />
+                                <this.Department id="finance" value="Finance" name="department" onChecked={this.multipleCheckBoxes} />
+                                <this.Department id="engineer" value="Engineer" name="department" onChecked={this.multipleCheckBoxes} />
+                                <this.Department id="others" value="Others" name="department" onChecked={this.multipleCheckBoxes} />
                             </div>
                         </div>
                         {/* Salary */}
                         <div className="row-content">
                             <label className="label text" htmlFor="salary">Choose your salary</label>
                             <input className="input slider" type="range" name="salary" id="salary" min="300000" max="500000" step="100"
-                                value="400000"></input>
-                            <output className="salary-output text" htmlFor="salary">400000</output>
+                                value={this.state.salary} onChange={this.inputUpdate}></input>
+                            <output className="salary-output text" htmlFor="salary">{this.state.salary}</output>
                         </div>
                         {/* Start Date */}
                         <div className="row-content">
                             <label className="label text" htmlFor="startDate">Start Date</label>
-                            <input className="input text date" type="date" id="startDate" name="startDate" required></input>
+                            <input className="input text date" type="date" id="startDate" name="startDate" value={this.state.startDate} onChange={this.inputUpdate} required></input>
                             <error-output className="date-error" htmlFor="startDate"></error-output>
                         </div>
                         {/* Notes */}
                         <div className="row-content">
-                            <label className="label text" htmlFor="notes">Notes</label>
-                            <textarea className="input note" id="notes" name="Notes" placeholder=""
+                            <label className="label text" htmlFor="note">Notes</label>
+                            <textarea className="input note" id="note" name="Notes" value={this.state.note} onChange={this.inputUpdate} placeholder=""
                             ></textarea>
                         </div>
                         {/* Buttons */}
