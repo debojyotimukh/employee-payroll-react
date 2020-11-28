@@ -5,6 +5,7 @@ import profilePic1 from "../../assets/profile-images/Ellipse -3.png";
 import profilePic2 from "../../assets/profile-images/Ellipse 1.png";
 import profilePic3 from "../../assets/profile-images/Ellipse -8.png";
 import profilePic4 from "../../assets/profile-images/Ellipse -7.png";
+import EmployeeService from '../../services/employee-service';
 
 
 class Employee extends React.Component {
@@ -20,11 +21,28 @@ class Employee extends React.Component {
             note: ''
         }
         this.departmentArr = []
-
+        this.employeeService = new EmployeeService()
     }
 
-    save = () => {
+    save = async (event) => {
+        event.preventDefault()
         alert(JSON.stringify(this.state))
+        
+        let payrollDTO = {
+            name: this.state.name,
+            profilePic: this.state.profilePic,
+            gender: this.state.gender,
+            department: this.state.department,
+            salary: this.state.salary,
+            startDate: this.state.startDate,
+            note: this.state.note
+        }
+
+        this.employeeService.addEmployee(payrollDTO).then(response => {
+            console.log("data added" + response.toString())
+        }).catch(e => {
+            console.error("Error adding data" + e.toString())
+        })
     }
 
     reset = () => {
