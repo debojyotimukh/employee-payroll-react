@@ -6,6 +6,7 @@ import profilePic2 from "../../assets/profile-images/Ellipse 1.png";
 import profilePic3 from "../../assets/profile-images/Ellipse -8.png";
 import profilePic4 from "../../assets/profile-images/Ellipse -7.png";
 import EmployeeService from '../../services/employee-service';
+import { Redirect } from 'react-router-dom';
 
 
 class Employee extends React.Component {
@@ -43,6 +44,8 @@ class Employee extends React.Component {
         }).catch(e => {
             console.error("Error adding data" + e.toString())
         })
+
+        return (<Redirect to="" />)
     }
 
     reset = () => {
