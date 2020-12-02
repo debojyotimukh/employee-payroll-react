@@ -5,7 +5,8 @@ import logo from '../../assets/images/logo.png'
 import deleteIcon from '../../assets/icons/delete-black-18dp.svg'
 import editIcon from '../../assets/icons/create-black-18dp.svg'
 import addIcon from '../../assets/icons/add-24px.svg'
-import EmployeeService from '../../services/employee-service';
+import profileTest from '../../assets/profile-images/Ellipse -10.png'
+import EmployeeService from '../../services/employee-service'
 import { Link } from 'react-router-dom'
 
 export default class EmployeeHome extends React.Component {
@@ -58,7 +59,8 @@ export default class EmployeeHome extends React.Component {
                     {
                         props.employeeArr && props.employeeArr.map((element, index) => (
                             <tr key={index}>
-                                <td><img className="profile" alt="" src={element.profilePic} /></td>
+                                {/* <td><img className="profile" alt="" src={element.profilePic} required /></td> */}
+                                <td><img className="profile" alt="" src={profileTest} /></td>
                                 <td>{element.name}</td>
                                 <td>{element.gender}</td>
                                 <td>{element.department && element.department.map((dept, key) =>
@@ -84,7 +86,7 @@ export default class EmployeeHome extends React.Component {
                 <this.PayrollHeader logo={logo} />
                 <div className="top-content">
                     <div className="emp-detail-text">
-                        Employee Details <div id="emp-count" className="emp-count">10</div>
+                        Employee Details <div id="emp-count" className="emp-count">{this.state.employeeData.length}</div>
                     </div>
                     <Link to="/payroll-form" className="add-button">
                         <img src={addIcon} alt="" />Add User</Link>
